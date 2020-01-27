@@ -13,10 +13,12 @@ export class CartService {
 
   addToCart(product) {
     this.items.push(product);
+    return this.items;
   }
 
   clearCart() {
     this.items = [];
+    return this.items;
   }
 
   getItems() {
@@ -29,5 +31,9 @@ export class CartService {
 
   getShippingPrices() {
     return this.http.get("/assets/shipping.json");
+  }
+
+  deleteItem(index) {
+    this.items.splice(index, 1);
   }
 }
