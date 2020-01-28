@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 
-import { CartService } from "../cart.service";
+import { CartService } from "@services/cart.service";
 
 @Component({
   selector: "app-cart",
@@ -9,14 +9,11 @@ import { CartService } from "../cart.service";
   styleUrls: ["./cart.component.css"]
 })
 export class CartComponent implements OnInit {
-  items;
   checkoutForm;
 
   constructor(private cart: CartService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.items = this.cart.getItems();
-
     this.checkoutForm = this.formBuilder.group({
       name: ["", [Validators.required, Validators.minLength(4)]],
       address: ["", [Validators.required, Validators.minLength(4)]]
@@ -26,12 +23,12 @@ export class CartComponent implements OnInit {
   onSubmit(customerData) {
     if (this.checkoutForm.valid) {
       console.warn("Your order has been submitted", customerData);
-      this.items = this.cart.clearCart();
+      this.cart.clearCart();
       this.checkoutForm.reset();
     }
   }
 
   onDelete(dataIndex) {
-    this.cart.deleteItem(dataIndex);
+    this.cart.removeProduct(dataIndex);
   }
 }

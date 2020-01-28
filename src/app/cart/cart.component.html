@@ -4,10 +4,13 @@
   <a routerLink="/shipping">Shipping Prices</a>
 </p>
 
-<ng-container *ngIf="items.length">
-  <div class="cart-item" *ngFor="let item of items; let i = index">
-    <span>{{ item.name }}</span>
-    <span>{{ item.price | currency }}</span>
+<ng-container *ngIf="!(cart.isEmpty$ | async)">
+  <div
+    class="cart-item"
+    *ngFor="let product of cart.products$ | async; let i = index"
+  >
+    <span>{{ product.name }}</span>
+    <span>{{ product.price | currency }}</span>
     <span>
       <button class="button" type="button" (click)="onDelete(i)">
         X
@@ -36,8 +39,8 @@
   </form>
 </ng-container>
 
-<ng-container *ngIf="!items.length">
-  <p>No items... :(</p>
+<ng-container *ngIf="cart.isEmpty$ | async">
+  <p>No products... :(</p>
   <button class="button" type="button" routerLink="/">
     Go buy some stuff
   </button>
